@@ -25,7 +25,7 @@ module LogSanity
   end
 
   def reset_fields
-    Thread.current[:logsanity_fields] = HashWithIndifferentAccess.new
+    Thread.current[:logsanity_fields] = {}.with_indifferent_access
   end
 
   def log(key, val)

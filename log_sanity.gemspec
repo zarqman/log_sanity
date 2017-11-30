@@ -12,6 +12,8 @@ Gem::Specification.new do |s|
   s.description   = 'LogSanity - Bring sanity to Rails logs by reducing verbosity, using json output, and more.'
   s.license       = 'MIT'
 
+  #
+
   s.files         = `git ls-files`.split($/)
   s.executables   = s.files.grep(%r{^bin/}) { |f| File.basename(f) }
   s.test_files    = s.files.grep(%r{^(test|spec|features)/})
