@@ -12,18 +12,17 @@ module LogSanity
 
     def call(severity, timestamp, progname, msg)
       if msg.is_a? Hash
-        msg[:at] = timestamp unless msg.key?(:at)
+        msg['at'] = timestamp unless msg.key?('at')
       elsif msg.is_a? String
         if string_formatter
           return string_formatter.call(severity, timestamp, progname, msg)
         else
-          msg = {at: timestamp, message: msg}
-          return "#{msg}\n"
+          msg = {'at' => timestamp, 'message' => msg}
         end
       else
-        msg = {at: timestamp, object: msg.inspect}
+        msg = {'at' => timestamp, 'object' => msg.inspect}
       end
-      msg[:at] = msg[:at].utc
+      msg['at'] = msg['at'].utc
       "#{msg.to_json}\n"
     end
 
