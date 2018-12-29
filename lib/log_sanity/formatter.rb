@@ -22,6 +22,10 @@ module LogSanity
       else
         msg = {'at' => timestamp, 'object' => msg.inspect}
       end
+      if msg['at'].is_a? Float
+        monot = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+        msg['at'] = Time.now - (monot - msg['at'])
+      end
       msg['at'] = msg['at'].utc
       "#{msg.to_json}\n"
     end
