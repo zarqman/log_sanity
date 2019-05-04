@@ -13,9 +13,11 @@
   require_relative "log_sanity/#{fn}"
 end
 
-ActionController::Base.include    LogSanity::Extensions::ActionControllerHelper
-ActionController::API.include     LogSanity::Extensions::ActionControllerHelper if defined?(ActionController::API)
-ActiveSupport::Subscriber.include LogSanity::Extensions::ActiveSupportSubscriber
+ActionController::Base.include LogSanity::Extensions::ActionControllerHelper
+ActionController::API.include  LogSanity::Extensions::ActionControllerHelper if defined?(ActionController::API)
+if Rails.version < '6'
+  ActiveSupport::Subscriber.include LogSanity::Extensions::ActiveSupportSubscriber
+end
 
 module LogSanity
   module_function

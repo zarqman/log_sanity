@@ -19,18 +19,10 @@ module LogSanity
 
       response
     rescue ActionController::RoutingError => exception
-      if Rails.version >= '5'
-        if request.show_exceptions?
-          render_exception(request, exception)
-        else
-          raise exception
-        end
+      if request.show_exceptions?
+        render_exception(request, exception)
       else
-        if env['action_dispatch.show_exceptions'] == false
-          raise exception
-        else
-          render_exception(env, exception)
-        end
+        raise exception
       end
     end
 

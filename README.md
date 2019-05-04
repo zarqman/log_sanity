@@ -47,7 +47,7 @@ Basic usage may require nothing more than enable LogSanity as outlined above. So
 
 ##### Adding attributes
 
-The most common way to add attributes is via controllers. Helper methods are provided for this. For example, to log the current user's ID, you might add the following to`application_controller.rb`:
+The most common way to add attributes is via controllers. Helper methods are provided for this. For example, to log the current user's ID, you might add the following to `application_controller.rb`:
 
 ```
 after_filter do
@@ -64,7 +64,7 @@ log_field 'user', {id: current_user.id, name: current_user.name}
 
 You can log multiple fields by calling `log_field` multiple times.
 
-It's also possible to get to the full fields hash:
+If you must, you can get to the full fields hash:
 ```
 LogSanity.fields['user'] ||= {}
 LogSanity.fields['user']['id'] = current_user.id
@@ -134,7 +134,7 @@ As noted above, you can either add extra attributes directly or via `log_tags`. 
 config.log_tags = [ :subdomain ]
 ```
 
-Just as Rails supports for text-style logs, you may use symbols (which call the named method on the `request` object), strings (logged literally), and Procs (which are passed `request` as a parameter).
+Just like Rails' support for text-style logs, you may use symbols (which call the named method on the `request` object), strings (logged literally), and Procs (which are passed `request` as a parameter).
 
 LogSanity takes these and adds them to the default request log entry (but not other log entries). If a tagged method (via symbol or Proc) returns a hash, it's merged directly into the output. Otherwise the return value is used as a string and give a key in the form `tag#` where # is automatically calculated.
 
@@ -172,7 +172,7 @@ There are still some things that could be handled better (such as multi-line str
 
 Pull requests are welcomed and encouraged. The only goal is to avoid making things unnecessarily complex.
 
-Tested on Rails 4.2 and up. Anything older is untested. Small patches for older compatibility will be considered.
+Tested on Rails 5.2 and up. Anything older is untested. Small patches for older compatibility will be considered.
 
 License: MIT
 
