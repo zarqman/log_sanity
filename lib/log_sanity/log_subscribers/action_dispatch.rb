@@ -9,9 +9,10 @@ module LogSanity
         info do
           request = payload[:request]
           response = payload[:response]
+          method = payload[:method] || (request.request_method rescue nil) || 'UNKNOWN'
           f2 = {
             'at' => event.time,
-            'event' => "#{request.scheme}_#{request.request_method.downcase}",
+            'event' => "#{request.scheme}_#{method.downcase}",
             'ip' => request.ip,
             'rq' => request.uuid,
             # 'params' => request.filtered_params,
