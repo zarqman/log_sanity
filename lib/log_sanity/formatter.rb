@@ -35,7 +35,7 @@ module LogSanity
     def tagged(*_) ; yield self ; end
     def current_tags ; [] ; end
 
-    attr_accessor :string_formatter
+    attr_writer :string_formatter
 
     def string_formatter
       @string_formatter ||= ActiveSupport::Logger::SimpleFormatter.new
