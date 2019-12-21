@@ -8,24 +8,31 @@ module LogSanity
     def call(env)
       request = ActionDispatch::Request.new(env)
 
-      ll = logger.level
-      if silence = silence_path?(request)
-        logger.level = Logger::ERROR
+      conditionally_silence(request) do |silence|
+        start(request: request)
+        resp = @app.call(env)
+        resp[2] = Rack::BodyProxy.new(resp[2]) do
+          finish(env: env, request: request, response: resp, silence: silence)
+        end
+        resp
       end
-
-      start(request: request)
-      resp = @app.call(env)
-      resp[2] = Rack::BodyProxy.new(resp[2]) do
-        finish(env: env, request: request, response: resp, silence: silence)
-      end
-      resp
     rescue Exception => e
       finish(env: env, request: request, exception: e, silence: silence)
       raise e
     ensure
-      logger.level = ll
       ActiveSupport::LogSubscriber.flush_all!
     end
+
+    def conditionally_silence(request)
+      if silence = silence_path?(request)
+        logger.silence do
+          yield silence
+        end
+      else
+        yield silence
+      end
+    end
+
 
 
     private
