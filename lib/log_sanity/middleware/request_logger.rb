@@ -9,16 +9,18 @@ module LogSanity
       request = ActionDispatch::Request.new(env)
 
       conditionally_silence(request) do |silence|
-        start(request: request)
-        resp = @app.call(env)
-        resp[2] = Rack::BodyProxy.new(resp[2]) do
-          finish(env: env, request: request, response: resp, silence: silence)
+        begin
+          start(request: request)
+          resp = @app.call(env)
+          resp[2] = Rack::BodyProxy.new(resp[2]) do
+            finish(env: env, request: request, response: resp, silence: silence)
+          end
+          resp
+        rescue Exception => e
+          finish(env: env, request: request, exception: e, silence: silence)
+          raise e
         end
-        resp
       end
-    rescue Exception => e
-      finish(env: env, request: request, exception: e, silence: silence)
-      raise e
     ensure
       ActiveSupport::LogSubscriber.flush_all!
     end
