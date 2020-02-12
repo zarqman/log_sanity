@@ -148,7 +148,7 @@ There is no need to use ActiveSupport::TaggedLogging with your logger. Just set 
 config.logger = ActiveSupport::Logger.new(STDOUT)
 ```
 
-All default output includes the :uuid/:request_id using the key "rq". There is no need to add [:uuid] to `config.log_tags`.
+All default output includes the :uuid/:request_id using the key "rq". There is no need to add \[:uuid] to `config.log_tags`.
 
 `ActionController::RoutingError` exceptions are always silenced and turned into a simple 404 log entry.
 

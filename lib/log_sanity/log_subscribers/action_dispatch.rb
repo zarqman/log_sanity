@@ -13,7 +13,7 @@ module LogSanity
           f2 = {
             'at' => event.time,
             'event' => "#{request.scheme}_#{method.downcase}",
-            'ip' => request.ip,
+            'ip' => request.remote_ip,
             'rq' => request.uuid,
             # 'params' => request.filtered_params,
             # 'path' => request.filtered_path,
