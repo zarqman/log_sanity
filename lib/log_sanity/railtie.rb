@@ -29,8 +29,9 @@ module LogSanity
           ActiveJob::Logging::LogSubscriber.detach_from :active_job
         end
         if defined?(ActiveRecord)
-          require 'active_record/log_subscriber'
-          ActiveRecord::LogSubscriber.detach_from :active_record
+          if ActiveRecord::Base.logger.debug?
+            Rails.logger.info '[LogSanity] ActiveRecord::Base.logger in debug mode and will still log queries'
+          end
         end
 
         LogSanity::LogSubscriber::ActionController.attach_to :action_controller

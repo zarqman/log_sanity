@@ -136,12 +136,12 @@ config.log_tags = [ :subdomain ]
 
 Just like Rails' support for text-style logs, you may use symbols (which call the named method on the `request` object), strings (logged literally), and Procs (which are passed `request` as a parameter).
 
-LogSanity takes these and adds them to the default request log entry (but not other log entries). If a tagged method (via symbol or Proc) returns a hash, it's merged directly into the output. Otherwise the return value is used as a string and give a key in the form `tag#` where # is automatically calculated.
+LogSanity takes these and adds them to the default request log entry (but _not_ other log entries). If a tagged method (via symbol or Proc) returns a hash, it's merged directly into the output. Otherwise the return value is used as a string and given a key in the form `tag#` where # is automatically calculated.
 
 
 ### Additional notes
 
-LogSanity is intended for production use only. Some debug-level logs are simply turned off. Others may continue to output as normal strings. 
+LogSanity is intended for production use at log_level info. At level debug, some logs are simply turned off. Others may continue to output as normal strings (such as ActiveRecord).
 
 There is no need to use ActiveSupport::TaggedLogging with your logger. Just set the logger directly (if not using the default):
 ```
