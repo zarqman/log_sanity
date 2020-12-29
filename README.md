@@ -70,7 +70,7 @@ LogSanity.fields['user'] ||= {}
 LogSanity.fields['user']['id'] = current_user.id
 ```
 
-It's also possible to add attributes via Rails existing `log_tags` facility, which is documented more below.
+It's also possible to add attributes via Rails' existing `log_tags` facility, which is documented more below.
 
 
 ##### Logging complete entries
@@ -172,7 +172,7 @@ There are still some things that could be handled better (such as multi-line str
 
 Pull requests are welcomed and encouraged. The only goal is to avoid making things unnecessarily complex.
 
-Tested on Rails 5.2 and up. Anything older is untested. Small patches for older compatibility will be considered.
+Tested on Rails 5.2 through 6.1 (or later). Anything older is untested. Small patches for older compatibility will be considered.
 
 License: MIT
 
