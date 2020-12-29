@@ -26,7 +26,15 @@ module LogSanity
         end
         if defined?(ActiveJob)
           require 'active_job/logging'
-          ActiveJob::Logging::LogSubscriber.detach_from :active_job
+          begin
+            require 'active_job/log_subscriber' # >= 6.1
+          rescue LoadError
+          end
+          if defined?(ActiveJob::LogSubscriber) # >= 6.1
+            ActiveJob::LogSubscriber.detach_from :active_job
+          else # < 6.1
+            ActiveJob::Logging::LogSubscriber.detach_from :active_job
+          end
         end
         if defined?(ActiveRecord)
           if ActiveRecord::Base.logger.debug?
