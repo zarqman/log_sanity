@@ -38,6 +38,7 @@ module LogSanity
     attr_writer :string_formatter
 
     def string_formatter
+      return @string_formatter if defined?(@string_formatter)
       @string_formatter ||= ActiveSupport::Logger::SimpleFormatter.new
     end
 
