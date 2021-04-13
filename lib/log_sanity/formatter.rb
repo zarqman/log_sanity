@@ -9,12 +9,16 @@
 
 module LogSanity
   class Formatter < Logger::Formatter
+    include ActiveSupport::TaggedLogging::Formatter
+      # tags are ignored when rendering as json
+      # however, tags are prepended when rendering with string_formatter
 
     def call(severity, timestamp, progname, msg)
       if msg.is_a? Hash
         msg.reverse_merge!('at' => timestamp) unless msg.key?('at')
       elsif msg.is_a? String
         if string_formatter
+          msg = "#{tags_text}#{msg}" if current_tags.any?
           return string_formatter.call(severity, timestamp, progname, msg)
         else
           msg = {'at' => timestamp, 'message' => msg}
@@ -29,11 +33,6 @@ module LogSanity
       msg['at'] = msg['at'].utc
       "#{msg.to_json}\n"
     end
-
-    # noop; for TaggedLogging compatibility
-    def clear_tags! ; end
-    def tagged(*_) ; yield self ; end
-    def current_tags ; [] ; end
 
     attr_writer :string_formatter
 
