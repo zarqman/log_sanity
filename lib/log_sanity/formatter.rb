@@ -12,7 +12,7 @@ module LogSanity
 
     def call(severity, timestamp, progname, msg)
       if msg.is_a? Hash
-        msg['at'] = timestamp unless msg.key?('at')
+        msg.reverse_merge!('at' => timestamp) unless msg.key?('at')
       elsif msg.is_a? String
         if string_formatter
           return string_formatter.call(severity, timestamp, progname, msg)
