@@ -10,7 +10,11 @@ module LogSanity
       if app.config.logsanity.enabled
         orig_formatter = Rails.logger.formatter
         Rails.logger.formatter = LogSanity::Formatter.new
-        Rails.logger.formatter.string_formatter = orig_formatter unless app.config.logsanity.json_strings
+        if app.config.logsanity.json_strings
+          Rails.logger.formatter.string_formatter = false
+        else
+          Rails.logger.formatter.string_formatter = orig_formatter if orig_formatter
+        end
 
         if defined?(ActionController)
           require 'action_controller/log_subscriber'
