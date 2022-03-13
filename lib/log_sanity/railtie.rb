@@ -49,6 +49,17 @@ module LogSanity
           end
         end
 
+        ActiveSupport.on_load(:action_cable) do
+          orig_logger = logger || Rails.logger
+          self.logger = orig_logger.clone.tap do |l|
+            l.level = Logger::WARN
+          end
+        end
+        ActiveSupport.on_load(:action_cable_connection) do
+          prepend LogSanity::Extensions::ActionCableConnection
+        end
+
+        LogSanity::LogSubscriber::ActionCable.attach_to :action_cable
         LogSanity::LogSubscriber::ActionController.attach_to :action_controller
         LogSanity::LogSubscriber::ActionDispatch.attach_to :action_dispatch
         LogSanity::LogSubscriber::ActionMailer.attach_to :action_mailer
