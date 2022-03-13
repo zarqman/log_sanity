@@ -41,6 +41,9 @@ module LogSanity
           end
         end
         if defined?(ActiveRecord)
+          # require 'active_record/log_subscriber'
+          # ActiveRecord::LogSubscriber.detach_from :active_record
+            # this turns off measurements too
           if ActiveRecord::Base.logger.debug?
             Rails.logger.info '[LogSanity] ActiveRecord::Base.logger in debug mode and will still log queries'
           end

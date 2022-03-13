@@ -143,7 +143,7 @@ LogSanity takes these and adds them to the default request log entry (but _not_ 
 
 LogSanity is intended for production use at log_level info. At level debug, some logs are simply turned off. Others may continue to output as normal strings (such as ActiveRecord).
 
-There is no need to use ActiveSupport::TaggedLogging with your logger. Just set the logger directly (if not using the default):
+If not using tags, there is no need to use ActiveSupport::TaggedLogging with your logger. Just set the logger directly (if not using the default):
 ```
 config.logger = ActiveSupport::Logger.new(STDOUT)
 ```
@@ -172,7 +172,7 @@ There are still some things that could be handled better (such as multi-line str
 
 Pull requests are welcomed and encouraged. The only goal is to avoid making things unnecessarily complex.
 
-Tested on Rails 5.2 through 6.1 (or later). Anything older is untested. Small patches for older compatibility will be considered.
+Tested on Rails 5.2 through 7.0 (or later). Anything older is untested. Small patches for older compatibility will be considered.
 
 License: MIT
 
