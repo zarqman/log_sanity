@@ -11,7 +11,7 @@ module LogSanity
           response = payload[:response]
           method = payload[:method] || (request.request_method rescue nil) || 'UNKNOWN'
           f2 = {
-            'at' => event.time,
+            'at' => event_start(event),
             'event' => "#{request.scheme}_#{method.downcase}",
             'ip' => request.remote_ip,
             'rq' => request.uuid,
