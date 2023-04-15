@@ -41,6 +41,17 @@ config.log_level = :info
 You can go less verbose than `:info` (say, `:warn`), but more verbose (ie: `:debug`) is not recommended.
 
 
+##### A note on initialization order
+
+LogSanity initializes after running `application.rb` and `config/environments/*.rb`, but before `config/initializers/*.rb`. Most `config.logsanity.*` settings must be in one of the former or they will be ignored (`config.logsanity.silence_paths` being an exception).
+
+However, `initializers/*.rb` may be used to reduce the scope of what's logged. For example, to skip logging of ActiveJob requests only:
+```ruby
+# initializers/logsanity.rb
+LogSanity::LogSubscriber::ActiveJob.detach_from :active_job
+```
+
+
 ### Usage
 
 Basic usage may require nothing more than enable LogSanity as outlined above. Some common configuration settings include silencing logging for certain paths (like health checks) or adding information about the currently authenticated user.

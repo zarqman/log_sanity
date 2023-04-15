@@ -5,7 +5,7 @@ module LogSanity
     config.logsanity.json_strings  = false
     config.logsanity.silence_paths = []
 
-    initializer "log_sanity.configure" do |app|
+    initializer "log_sanity.configure", before: :load_config_initializers do |app|
       app.config.log_tags ||= []
       if app.config.logsanity.enabled
         orig_formatter = Rails.logger.formatter
