@@ -9,14 +9,12 @@
     middleware/request_logger
     middleware/routing_error_catcher
     extensions/action_cable_connection
-    extensions/action_controller_helper 
+    extensions/action_controller_helper
     extensions/active_support_subscriber
   ).each do |fn|
   require_relative "log_sanity/#{fn}"
 end
 
-ActionController::Base.include LogSanity::Extensions::ActionControllerHelper
-ActionController::API.include  LogSanity::Extensions::ActionControllerHelper if defined?(ActionController::API)
 if Rails.version < '6'
   ActiveSupport::Subscriber.include LogSanity::Extensions::ActiveSupportSubscriber
 end

@@ -5,6 +5,13 @@ module LogSanity
     config.logsanity.json_strings  = false
     config.logsanity.silence_paths = []
 
+    initializer "log_sanity.extensions" do
+      ActiveSupport.on_load(:action_controller) do
+        # runs for each of AC::Base, AC::API
+        include LogSanity::Extensions::ActionControllerHelper
+      end
+    end
+
     initializer "log_sanity.configure", before: :load_config_initializers do |app|
       app.config.log_tags ||= []
       if app.config.logsanity.enabled
