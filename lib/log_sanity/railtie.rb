@@ -51,8 +51,10 @@ module LogSanity
 
         ActiveSupport.on_load(:action_cable) do
           orig_logger = logger || Rails.logger
-          self.logger = orig_logger.clone.tap do |l|
-            l.level = Logger::WARN
+          if orig_logger.level < Logger::WARN
+            self.logger = orig_logger.clone.tap do |l|
+              l.level = Logger::WARN
+            end
           end
         end
         ActiveSupport.on_load(:action_cable_connection) do
