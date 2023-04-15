@@ -10,7 +10,7 @@ However, just because the primary output is a single line doesn't make it a one-
 
 Example output: (Multi-line and extra whitespace added for readability; normally all one line.)
 
-```
+```json
 { "at" : "2017-01-18T00:27:50.947Z",
   "event" : "https_get",
   "ip" : "127.0.0.1",
@@ -28,12 +28,12 @@ Example output: (Multi-line and extra whitespace added for readability; normally
 ### Installation
 
 Install the usual way:
-```
+```ruby
 gem 'log_sanity'
 ```
 
 By default, LogSanity does not enable itself. To do so, in `config/environments/production.rb` add:
-```
+```ruby
 config.logsanity.enabled = true
 config.log_level = :info
 ```
@@ -54,14 +54,14 @@ LogSanity::LogSubscriber::ActiveJob.detach_from :active_job
 
 ### Usage
 
-Basic usage may require nothing more than enable LogSanity as outlined above. Some common configuration settings include silencing logging for certain paths (like health checks) or adding information about the currently authenticated user.
+Basic usage may require nothing more than enabling LogSanity as outlined above. Some common configuration settings include silencing logging for certain paths (like health checks) or adding information about the currently authenticated user.
 
 ##### Adding attributes
 
 The most common way to add attributes is via controllers. Helper methods are provided for this. For example, to log the current user's ID, you might add the following to `application_controller.rb`:
 
-```
-after_filter do
+```ruby
+after_action do
   if current_user
     log_field 'user', current_user.id
   end
@@ -69,14 +69,14 @@ end
 ```
 
 The syntax is simply `log_field(key, value)`. Since the output is JSON, `value` can even be a hash or array:
-```
+```ruby
 log_field 'user', {id: current_user.id, name: current_user.name}
 ```
 
 You can log multiple fields by calling `log_field` multiple times.
 
 If you must, you can get to the full fields hash:
-```
+```ruby
 LogSanity.fields['user'] ||= {}
 LogSanity.fields['user']['id'] = current_user.id
 ```
@@ -87,7 +87,7 @@ It's also possible to add attributes via Rails' existing `log_tags` facility, wh
 ##### Logging complete entries
 
 To log a complete event (a complete log entry), try something like:
-```
+```ruby
 logger.info 'event'=>'user_signup', 'source'=>'ppc', 'campaign'=>'awesomeness', 'rq'=>request.uuid, 'user'=>current_user.id
 ```
 
@@ -97,13 +97,13 @@ If you pass in a hash to any `logger` method, it automatically becomes JSON outp
 
 ### Configuration options
 
-While the above cover most of it, there are a handful of other potentially useful settings.
+While the above covers most of it, there are a handful of other potentially useful settings.
 
 ##### Silence logging for certain paths
 
-This is particularly useful if you have any kind of health check path, as there's no need to fill up log files with that stuff.
+This is particularly useful if you have any kind of health check path, as there's no need to fill up log files with that stuff. Both exact strings and regexps are supported.
 
-```
+```ruby
 config.logsanity.silence_paths += ["/health", %r{^/healthcheck}]
 ```
 
@@ -114,7 +114,7 @@ Both exact path matches (Strings) and Regex's are supported.
 
 By default, strings are logged as-is and not stuck inside a JSON object. If you prefer the opposite:
 
-```
+```ruby
 config.logsanity.json_strings = true
 ```
 
@@ -123,7 +123,7 @@ With `json_strings` as `false` (default), `logger.info "This is fantastic!"` wou
 This is fantastic!
 ```
 However, if `true`, you'll see:
-```
+```json
 {"at":"2017-01-18T00:27:50.947Z","message":"This is fantastic!"}
 ```
 
@@ -132,7 +132,7 @@ However, if `true`, you'll see:
 
 When LogSanity initializes, it replaces the Rails log formatter with its own, but saves the old one for outputting strings (assuming `json_strings` is `false`). This means you can still configure the formatting of those. For example, to use Logger's default formatting (instead of Rails' default):
 
-```
+```ruby
 config.log_formatter = ::Logger::Formatter.new
 ```
 
@@ -141,7 +141,7 @@ config.log_formatter = ::Logger::Formatter.new
 
 As noted above, you can either add extra attributes directly or via `log_tags`. We discussed direct already. Now let's take a look at tagged logging, which is a bit different in a JSON world.
 
-```
+```ruby
 config.log_tags = [ :subdomain ]
 ```
 
@@ -155,7 +155,7 @@ LogSanity takes these and adds them to the default request log entry (but _not_ 
 LogSanity is intended for production use at log_level info. At level debug, some logs are simply turned off. Others may continue to output as normal strings (such as ActiveRecord).
 
 If not using tags, there is no need to use ActiveSupport::TaggedLogging with your logger. Just set the logger directly (if not using the default):
-```
+```ruby
 config.logger = ActiveSupport::Logger.new(STDOUT)
 ```
 
