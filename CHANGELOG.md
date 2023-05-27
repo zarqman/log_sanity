@@ -1,3 +1,7 @@
+#### 1.3.1
+
+- Handle updated show_exceptions values in Rails 7.1
+
 #### 1.3.0
 
 - Fix timing of gem initialization
