@@ -10,19 +10,15 @@
     middleware/routing_error_catcher
     extensions/action_cable_connection
     extensions/action_controller_helper
-    extensions/active_support_subscriber
   ).each do |fn|
   require_relative "log_sanity/#{fn}"
-end
-
-if Rails.version < '6'
-  ActiveSupport::Subscriber.include LogSanity::Extensions::ActiveSupportSubscriber
 end
 
 module LogSanity
   module_function
 
   def fields
+    # this is fiber-local
     Thread.current[:logsanity_fields] || reset_fields
   end
 

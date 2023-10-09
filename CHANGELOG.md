@@ -1,3 +1,8 @@
+#### 2.0.0
+
+- (Breaking) Require Rails 7.1
+  For Rails 7.0 and earlier, use log_sanity 1.x
+
 #### 1.3.2
 
 - Fix logging on Rails 7.1 due to default use of BroadcastLogger

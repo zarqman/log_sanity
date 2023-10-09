@@ -19,20 +19,12 @@ module LogSanity
 
       response
     rescue ActionController::RoutingError => exception
-      if Rails.version >= '7.1'
-        backtrace_cleaner = request.get_header('action_dispatch.backtrace_cleaner')
-        wrapper = ActionDispatch::ExceptionWrapper.new(backtrace_cleaner, exception)
-        if wrapper.show?(request)
-          render_exception(request, wrapper)
-        else
-          raise exception
-        end
+      backtrace_cleaner = request.get_header('action_dispatch.backtrace_cleaner')
+      wrapper = ActionDispatch::ExceptionWrapper.new(backtrace_cleaner, exception)
+      if wrapper.show?(request)
+        render_exception(request, wrapper)
       else
-        if request.show_exceptions?
-          render_exception(request, exception)
-        else
-          raise exception
-        end
+        raise exception
       end
     end
 
