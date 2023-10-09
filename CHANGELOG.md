@@ -1,3 +1,7 @@
+#### 1.3.2
+
+- Fix logging on Rails 7.1 due to default use of BroadcastLogger
+
 #### 1.3.1
 
 - Handle updated show_exceptions values in Rails 7.1

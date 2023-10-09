@@ -57,10 +57,12 @@ module LogSanity
         end
 
         ActiveSupport.on_load(:action_cable) do
-          orig_logger = logger || Rails.logger
-          if orig_logger.level < Logger::WARN
-            self.logger = orig_logger.clone.tap do |l|
-              l.level = Logger::WARN
+          if Rails.version < '7.1'
+            orig_logger = logger || Rails.logger
+            if orig_logger.level < Logger::WARN
+              self.logger = orig_logger.clone.tap do |l|
+                l.level = Logger::WARN
+              end
             end
           end
         end
