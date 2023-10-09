@@ -34,6 +34,7 @@ module LogSanity
         ActiveSupport.on_load(:action_cable_connection) do
           prepend LogSanity::Extensions::ActionCableConnection
         end
+
         ActiveSupport.on_load(:action_cable) do
           # set just ActionCable's logger to :warn to silence several non-instrumented logs
           orig_logger = logger || Rails.logger
@@ -42,7 +43,6 @@ module LogSanity
               l.level = Logger::WARN
             end
           end
-
           LogSanity::LogSubscriber::ActionCable.attach_to :action_cable
         end
 

@@ -27,9 +27,14 @@ Example output: (Multi-line and extra whitespace added for readability; normally
 
 ### Installation
 
-Install the usual way:
+For Rails 7.1+, use log_sanity 2.x:
 ```ruby
 gem 'log_sanity'
+```
+
+For Rails 5.2, 6.x, or 7.0, use log_sanity 1.x:
+```ruby
+gem 'log_sanity', '~> 1'
 ```
 
 By default, LogSanity does not enable itself. To do so, in `config/environments/production.rb` add:
@@ -47,7 +52,7 @@ LogSanity initializes after running `application.rb` and `config/environments/*.
 
 However, `initializers/*.rb` may be used to reduce the scope of what's logged. For example, to skip logging of ActiveJob requests only:
 ```ruby
-# initializers/logsanity.rb
+# initializers/log_sanity.rb
 LogSanity::LogSubscriber::ActiveJob.detach_from :active_job
 ```
 
@@ -130,7 +135,7 @@ However, if `true`, you'll see:
 
 ##### String formatting
 
-When LogSanity initializes, it replaces the Rails log formatter with its own, but saves the old one for outputting strings (assuming `json_strings` is `false`). This means you can still configure the formatting of those. For example, to use Logger's default formatting (instead of Rails' default):
+When LogSanity initializes, it replaces the Rails log formatter with its own, but saves the old one for outputting strings (used when `json_strings` is `false`). This means you can still configure the formatting of those. For example, to use Logger's default formatting (instead of Rails' default):
 
 ```ruby
 config.log_formatter = ::Logger::Formatter.new
@@ -152,7 +157,7 @@ LogSanity takes these and adds them to the default request log entry (but _not_ 
 
 ### Additional notes
 
-LogSanity is intended for production use at log_level info. At level debug, some logs are simply turned off. Others may continue to output as normal strings (such as ActiveRecord).
+LogSanity is intended for production use at log_level info. At level debug, some logs are simply turned off. Others may continue to output as normal strings (such as ActiveRecord queries).
 
 If not using tags, there is no need to use ActiveSupport::TaggedLogging with your logger. Just set the logger directly (if not using the default):
 ```ruby

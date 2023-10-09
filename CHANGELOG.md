@@ -1,7 +1,10 @@
 #### 2.0.0
 
 - (Breaking) Require Rails 7.1
-  For Rails 7.0 and earlier, use log_sanity 1.x
+  For Rails 5.2, 6.x, and 7.0, use log_sanity 1.x
+- Handle new events and updated payloads for Rails 7.1
+- Use updated instrumentation API in request_logger
+- Refactor initializer to use on_load
 
 #### 1.3.2
 
