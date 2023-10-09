@@ -8,7 +8,6 @@
   log_subscribers/action_mailer
   log_subscribers/active_job
   middleware/request_logger
-  middleware/routing_error_catcher
   extensions/action_cable_connection
   extensions/action_controller_helper
   extensions/broadcast_logger

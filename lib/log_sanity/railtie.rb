@@ -27,10 +27,6 @@ module LogSanity
 
         app.middleware.swap Rails::Rack::Logger, LogSanity::RequestLogger
 
-        show_exceptions_app = app.config.exceptions_app || ActionDispatch::PublicExceptions.new(Rails.public_path)
-        app.middleware.use LogSanity::RoutingErrorCatcher, show_exceptions_app
-
-
         ActiveSupport.on_load(:action_cable_connection) do
           prepend LogSanity::Extensions::ActionCableConnection
         end

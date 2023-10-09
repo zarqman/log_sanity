@@ -166,8 +166,6 @@ config.logger = ActiveSupport::Logger.new(STDOUT)
 
 All default output includes the :uuid/:request_id using the key "rq". There is no need to add \[:uuid] to `config.log_tags`.
 
-`ActionController::RoutingError` exceptions are always silenced and turned into a simple 404 log entry.
-
 The request path is not included, as it mostly just duplicates `route` and `params`. If you need it, you could add it using `config.log_tags = [:filtered_path]`. Alternatively, consider adding X-Request-Id to your `nginx` (or other webserver) logs and correlating to those logs instead.
 
 The `total` duration may be longer than you're used to seeing. By default, Rails only counts the time inside the application controller. In contrast, LogSanity also includes all the middleware between itself and the application controller. While this isn't the entire picture, it is closer to the actual real time elapsed.
@@ -178,7 +176,6 @@ The `total` duration may be longer than you're used to seeing. By default, Rails
 In short:
 * Removes all default Rails logging, replacing it with its own
 * Replaces Rails::Rack::Logger middleware with its own
-* Adds middleware to intercept routing errors
 * Replaces the current logger's formatter
 
 

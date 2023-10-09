@@ -2,6 +2,9 @@
 
 - (Breaking) Require Rails 7.1
   For Rails 5.2, 6.x, and 7.0, use log_sanity 1.x
+- (Potentially breaking) Remove RoutingErrorCatcher middleware
+  Shouldn't break unless directly referenced during app's middleware setup
+  Mostly not needed on Rails 7.1, but for an alternative, see [rails-hush](https://github.com/zarqman/rails-hush) gem
 - Handle new events and updated payloads for Rails 7.1
 - Use updated instrumentation API in request_logger
 - Refactor initializer to use on_load
