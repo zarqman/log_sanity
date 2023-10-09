@@ -13,6 +13,11 @@ module LogSanity
             'queue' => job.queue_name
           }
           e['params'] = job.arguments if job.arguments.any?
+          if error = event.payload[:exception_object] || job.enqueue_error
+            e['error'] = error
+          elsif event.payload[:aborted]
+            e['callback_halt'] = 'before_enqueue'
+          end
           e
         end
       end
@@ -29,7 +34,24 @@ module LogSanity
             'start_at' => job.scheduled_at
           }
           e['params'] = job.arguments if job.arguments.any?
+          if error = event.payload[:exception_object] || job.enqueue_error
+            e['error'] = error
+          elsif event.payload[:aborted]
+            e['callback_halt'] = 'before_enqueue'
+          end
           e
+        end
+      end
+
+      def enqueue_all(event)
+        info do
+          total = event.payload[:jobs].size
+          enqueued = event.payload[:enqueued_count]
+          { 'at' => Time.now,
+            'event' => 'bulk_enqueue',
+            'enqueued' => enqueued,
+            'failed' => total - enqueued,
+          }
         end
       end
 
@@ -60,6 +82,11 @@ module LogSanity
             'duration' => {'total' => event.duration.round}
           }
           e['params'] = job.arguments if job.arguments.any?
+          if error = event.payload[:exception_object]
+            e['error'] = error
+          elsif event.payload[:aborted]
+            e['callback_halt'] = 'before_perform'
+          end
           e
         end
       end

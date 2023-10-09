@@ -35,6 +35,10 @@ module LogSanity
         end
       end
 
+      def redirect(event)
+        log 'redirect', event.payload[:location]
+      end
+
 
       private
 

@@ -51,6 +51,11 @@ module LogSanity
           LogSanity::LogSubscriber::ActionController.attach_to :action_controller
         end
 
+        ActiveSupport.on_load(:action_dispatch_request) do
+          ActionDispatch::LogSubscriber.detach_from :action_dispatch
+          LogSanity::LogSubscriber::ActionDispatch.attach_to :action_dispatch
+        end
+
         ActiveSupport.on_load(:action_mailer) do
           ActionMailer::LogSubscriber.detach_from :action_mailer
           LogSanity::LogSubscriber::ActionMailer.attach_to :action_mailer
