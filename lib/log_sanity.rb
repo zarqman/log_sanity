@@ -10,6 +10,7 @@
     middleware/routing_error_catcher
     extensions/action_cable_connection
     extensions/action_controller_helper
+    extensions/broadcast_logger
   ).each do |fn|
   require_relative "log_sanity/#{fn}"
 end
