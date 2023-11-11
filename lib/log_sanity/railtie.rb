@@ -13,7 +13,6 @@ module LogSanity
     end
 
     initializer "log_sanity.configure", before: :load_config_initializers do |app|
-      ActiveSupport::BroadcastLogger.include LogSanity::Extensions::BroadcastLogger
       app.config.log_tags ||= []
 
       if app.config.logsanity.enabled

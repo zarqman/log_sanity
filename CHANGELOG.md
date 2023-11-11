@@ -1,3 +1,8 @@
+#### 2.1.0
+
+- Require Rails 7.1.2
+- Remove BroadcastLogger extension
+
 #### 2.0.0
 
 - (Breaking) Require Rails 7.1
