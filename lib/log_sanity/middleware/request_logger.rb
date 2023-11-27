@@ -9,7 +9,12 @@ module LogSanity
       request = ActionDispatch::Request.new(env)
 
       conditionally_silence(request) do |silence|
-        payload = {env: env, request: request, silence: silence}
+        payload = {
+          env:     env,
+          method:  (request.request_method rescue 'INVALID'),
+          request: request,
+          silence: silence
+        }
         handle = start(payload)
         begin
           status, headers, body = response = @app.call(env)

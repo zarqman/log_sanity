@@ -1,3 +1,7 @@
+#### 2.1.1
+
+- Report correct request method when Rails handles an exception
+
 #### 2.1.0
 
 - Require Rails 7.1.2
