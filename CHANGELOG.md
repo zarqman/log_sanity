@@ -1,3 +1,7 @@
+#### 2.1.2
+
+- In ActiveJob logs, output gid:// when available instead of using .to_json
+
 #### 2.1.1
 
 - Report correct request method when Rails handles an exception
