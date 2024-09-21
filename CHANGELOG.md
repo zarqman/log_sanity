@@ -1,3 +1,8 @@
+#### 2.2.0
+
+- Add DB query counts for ActiveRecord 7.2
+  Only real queries are reported; cached queries are excluded
+
 #### 2.1.2
 
 - In ActiveJob logs, output gid:// when available instead of using .to_json

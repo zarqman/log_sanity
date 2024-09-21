@@ -23,14 +23,24 @@ module LogSanity
         end
 
         durations = {'total' => event.duration.round}
+        queries   = {}
         additions = ::ActionController::Base.log_process_action(payload)
         additions.each do |add|
           if add =~ /^([^:]+):?\s*([0-9.]+)(ms)?/
             ms = $2.to_f.round
-            durations[$1.downcase] = ms if ms > 0
+            name = $1.downcase
+            durations[name] = ms if ms > 0
+          end
+          if name and add =~ /[^0-9]([0-9]+) quer/
+            q_real = $1.to_i
+            if q_real > 0 and add =~ /[^0-9]([0-9]+) cached/
+              q_real -= $1.to_i # exclude cached queries
+            end
+            queries[name] = q_real if q_real > 0
           end
         end
 
+        log 'queries', queries if queries.any?
         log 'duration', durations
         log 'status', status
       end
