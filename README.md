@@ -185,8 +185,6 @@ There are still some things that could be handled better (such as multi-line str
 
 Pull requests are welcomed and encouraged. The only goal is to avoid making things unnecessarily complex.
 
-Tested on Rails 5.2 through 7.1 (or later). Anything older is untested. Small patches for older compatibility will be considered.
-
 License: MIT
 
 

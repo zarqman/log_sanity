@@ -1,3 +1,7 @@
+#### 2.3.0
+
+- Support Rails 8.0
+
 #### 2.2.0
 
 - Add DB query counts for ActiveRecord 7.2
