@@ -9,10 +9,10 @@ module LogSanity
         format  = payload[:format]
 
         # log 'method', payload[:method]
-        # log 'path', payload[:path]
+        # log 'path', payload[:path]  # includes unfiltered qparams
         # log 'controller', payload[:controller]
         # log 'action', payload[:action]
-        log 'route', "#{payload[:controller]}##{payload[:action]}"
+        log 'route', "#{payload[:controller]}##{payload[:action]}" if payload[:controller]
         log 'format', format
         log 'params', params if params.present?
 

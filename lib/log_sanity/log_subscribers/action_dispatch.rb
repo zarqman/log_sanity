@@ -15,16 +15,22 @@ module LogSanity
             'event' => "#{request.scheme}_#{method.downcase}",
             'ip' => request.remote_ip,
             'rq' => request.uuid,
-            # 'params' => request.filtered_params,
-            # 'path' => request.filtered_path,
+            # 'path' => request.path,           # path only
+            # 'path' => request.filtered_path,  # path + params
+            # 'params' => request.filtered_parameters,
           }
 
-          # unless fields['route']
-          #   # most errors repopulate path, so look for the original one first.
-          #   # original_path is, however, unfiltered.
-          #   fields['path'] = payload[:env]['action_dispatch.original_path']
-          #   fields['path'] ||= request.filtered_path
-          # end
+          unless fields['route']
+            unless fields['path']
+              # most errors repopulate path, so look for the original one first.
+              # original_path is, however, unfiltered.
+              f2['path']   = request.filtered_env['action_dispatch.original_path']
+              f2['path'] ||= request.path
+            end
+            if !fields['params'] && p2 = request.filtered_parameters.presence
+              f2['params'] = p2
+            end
+          end
 
           fields['duration'] ||= {}
           fields['duration']['total'] = event.duration.round
