@@ -27,8 +27,9 @@ module LogSanity
               f2['path']   = request.filtered_env['action_dispatch.original_path']
               f2['path'] ||= request.path
             end
-            if !fields['params'] && p2 = request.filtered_parameters.presence
-              f2['params'] = p2
+            unless fields['params']
+              fp = request.filtered_parameters rescue {parse_error: "#{$!.class}: #{$!.message.truncate(100)}"}
+              f2['params'] = fp if fp.present?
             end
           end
 
