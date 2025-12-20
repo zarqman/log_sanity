@@ -28,6 +28,9 @@ module LogSanity
       end
       msg['at'] = msg['at'].utc
       "#{msg.to_json}\n"
+    rescue JSON::JSONError
+      msg = sanitize msg
+      "#{msg.to_json}\n"
     end
 
     attr_writer :string_formatter
@@ -35,6 +38,19 @@ module LogSanity
     def string_formatter
       return @string_formatter if defined?(@string_formatter)
       @string_formatter ||= ActiveSupport::Logger::SimpleFormatter.new
+    end
+
+    def sanitize(obj)
+      case obj
+      when Hash
+        obj.transform_keys{|k| sanitize k }.transform_values{|v| sanitize v }
+      when Array
+        obj.map{|v| sanitize v }
+      when String
+        obj.dup.force_encoding('utf-8').scrub('.')
+      else
+        obj
+      end
     end
 
   end
